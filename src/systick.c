@@ -18,10 +18,10 @@ static void Suma (void);
 static void LlamandoAMalloc (void);
 static void PrivilegiosSVC (void);
 void SVC_Handler (void);
-
+static void zeros();
+static void mult();
 int main(void){
 	Inicio();
-
 	uint32_t aValue = 20,
 				 otherValue = 30,
 				 sumResult;
@@ -41,8 +41,9 @@ int main(void){
 	//svc_call(0);
 
 	sumResult = asm_sum(aValue, otherValue);
-	asm_svc();
-
+	//asm_svc();
+	zeros();
+    mult();
 	while (1)
 	{
 		__WFI();
@@ -50,7 +51,20 @@ int main(void){
 
 	atenderError();
 }
+static void zeros(){
+	uint32_t array[8]={(uint32_t)-1,(uint32_t)-2,(uint32_t)-3,
+			(uint32_t)-4,(uint32_t)-5,(uint32_t)-6,
+			(uint32_t)-7,(uint32_t)-8};
+	asm_zero(&array[0],8);
+	c_zero(array,8);
 
+}
+
+static void mult(){
+	uint32_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    uint32_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+	asm_productoEscalar32(&array_in[0],&array_out[0],8,2);
+}
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.
 static void Inicio (void)

@@ -32,3 +32,6 @@ Debug/src/systick.su
 Debug/src/tecla.su
 Debug/src/uart.su
 periph_blinky LinkServer Debug.launch
+Debug/src/c_func.d
+Debug/src/c_func.o
+Debug/src/c_func.su
