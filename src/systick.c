@@ -21,6 +21,7 @@ void SVC_Handler (void);
 static void zeros();
 static void mult();
 static void mult16();
+static void mult12();
 int main(void){
 	Inicio();
 	uint32_t aValue = 20,
@@ -46,6 +47,7 @@ int main(void){
 	zeros();
     mult();
     mult16();
+    mult12();
 	while (1)
 	{
 		__WFI();
@@ -72,6 +74,12 @@ static void mult16(){
 	uint16_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
     uint16_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
 	asm_productoEscalar16(&array_in[0],&array_out[0],8,2);
+}
+
+static void mult12(){
+	uint16_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    uint16_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+	asm_productoEscalar12(&array_in[0],&array_out[0],8,0x08FF);
 }
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.

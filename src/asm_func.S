@@ -8,6 +8,7 @@
 .global asm_zero
 .global asm_productoEscalar32
 .global asm_productoEscalar16
+.global asm_productoEscalar12
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   uint32_t asmSum (uint32_t firstOperand, uint32_t secondOperand)
@@ -114,3 +115,33 @@
 		bne .loop_pro16
 		pop {r4-r5}
 		bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@	Realice el producto de un vector, un escalar y saturar a los 12 bits 
+@   void asm_productoEscalar12(uint16_t *vectorIn,uint16_t *vectorOut,
+@							uint32_t longitud, uint16_t escalar);
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@	r2: longitud
+@	r3: escalar
+.thumb_func
+	asm_productoEscalar12:
+		@registros usados r4: almaceno el valor de r0 / r5: el valor de saturacion
+		push {r4-r5}
+		ldr r5,=#0x00000fff
+	.loop_pro12:
+		ldrh r4,[r0],#2 @ r4 = mem16[r0] ; r0 +=2
+		mul  r4,r3 @r4 = r4*r3
+	.BEGINIF:
+		cmp r4, r5
+		ble .ENDIF
+		mov r4,r5
+	.ENDIF:
+		strh r4,[r1],#2 @ mem16[r1] = r5 ; r1 +=2
+		subs r2,#1 @ --longitud
+		bne .loop_pro12
+		pop {r4-r5}
+		bx lr
+
+
