@@ -5,7 +5,7 @@ This is the standard layout used in ARM assembly:
 For example, the following code is used to add two registers together:
 
 ADD R0, R1, R2
-- <op> — Three-letter mnemonic, called the operand
+- < op > — Three-letter mnemonic, called the operand
 - {cond} — Optional two-letter condition code
 - {flags} — Optional additional flag
 - Rd — Destination register
