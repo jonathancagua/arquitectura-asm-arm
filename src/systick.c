@@ -7,13 +7,21 @@
  ****************************************************************************/
 
 #define TICKRATE_HZ (1000)	/* 1000 ticks per second */
+#define DWT_CONTROL             (*((volatile uint32_t*)0xE0001000))
+#define DWT_CYCCNT              (*((volatile uint32_t*)0xE0001004))
+#define DWT_CYCCNTENA_BIT       (1UL<<0)
+
+#define EnableCycleCounter()    DWT_CONTROL |= DWT_CYCCNTENA_BIT
+#define GetCycleCounter()       DWT_CYCCNT
+#define ResetCycleCounter()     DWT_CYCCNT = 0
+#define DisableCycleCounter()   DWT_CONTROL &= ~DWT_CYCCNTENA_BIT
 
 // Variable que se incrementa cada vez que se llama al handler de interrupcion
 // del SYSTICK.
 static volatile uint32_t s_ticks = 0;
 
 static void Inicio (void);
-void SysTick_Handler (void);
+//void SysTick_Handler (void);
 static void Suma (void);
 static void LlamandoAMalloc (void);
 static void PrivilegiosSVC (void);
@@ -94,10 +102,10 @@ static void Inicio (void)
 
 // Segun la configuracion realizada en Inicio(), este handler de interrupcion
 // se ejecutara cada 1 milisegundo.
-void SysTick_Handler (void)
-{
-    ++ s_ticks;
-}
+//void SysTick_Handler (void)
+//{
+//    ++ s_ticks;
+//}
 
 
 static void Suma (void)
