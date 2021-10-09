@@ -65,6 +65,27 @@ Se guardan los valores de contador y el punto de retorno para luego de atender l
 17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
 
 
+16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+Tail chaining es si una excepción está en un estado pendiente cuando se completo otro manejador de excepciones, en lugar de volver al programa interrumpido y entrar de nuevo en la secuencia de excepción.
+Late arrival si se produce una excepción de mayor prioridad durante el proceso de apilamiento de una excepción de menor prioridad, el procesador pasa a gestionar primero la excepción de mayor prioridad.
+
+17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
+Esta característica de los Cortex-M consiste en un contador en decremento de 24 bits con un mecanismo de control flexible. Favorece ya que en todos los micros es la misma aplicacion.
+
+
+18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
+permite bloquear acceso a ciertas secciones de memoria y levanta exception si esta intentando acceder.
+
+19. ¿Cuántas regiones pueden configurarse como máximo? ¿Qué ocurre en caso de haber solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiertas por las regiones definidas?
+Son ocho regiones que pueden configurar.En solapamiento queda defindo con esa configuracion.
+
+20. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto de las excepciones? Dé un ejemplo
+PendSV es una excepción pendiente, si se confirggura con la prioridad más baja, si se activan varias excepciones al mismo tiempo, se ejecutará después de que se completen otras excepciones, y cualquier excepción puede interrumpirlo. 
+         CPSID I@ interrupción cercana
+         CPSIE I@ interrupción abierta
+         BX LR; retorno anormal
+
+
 
 
 
