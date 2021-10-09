@@ -1,3 +1,14 @@
+Preguntas orientadoras:
+1. Describa brevemente los diferentes perfiles de familias de microprocesadores/microcontroladores de ARM. Explique alguna de sus diferencias características.
+Cortex A que son para aplicacion que ofrece soluciones para aplicaciones moviles de alto rendimiento.
+Cortex R son par aplicaciones de tiempo real.
+Cortex M: microcontolador son para disneos de bajo consumo, de potencia y bajo costo. 
+
+CORTEX M
+1. Describa brevemente las diferencias entre las familias de procesadores Cortex M0, M3 y M4.
+Cortex M0 se emplean en aplicaciones que requieran bajo costo, consumo de potencia y área mínima.
+Cortex M3, M4 se emplean en dispositivos que requiere balance entre desempeño y eficiencia energética.
+
 2. ¿Por qué se dice que el set de instrucciones Thumb permite mayor densidad de código?
 Permite mayor densidad de codigo porque son un set de instrucciones de 16 bits de longitud 
 en lugar de los 32 lo que logra disminuir la cantidad de codigo y la densidad.
@@ -13,3 +24,23 @@ en codigo,SRAM, perifericos, ram externa, dispositivos eternos, privados y dispo
 
 5. ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
 Se usa para proveer parametros adicionales y locales variables para distintos segmentos de programa.
+
+6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo privilegiado a no priviligiado y nuevamente a privilegiado.
+El arm cuenta con dos modos, el modo controlador y el modo hilo. Tambien cuenta con niveles de permiso que son privilegiado y no privilegiado, el privilegiado tiene acceso a todo los recursos y el otro es limitado al acceso.No se puede acceder del modo hilo al modo privilegiado poqur no se tiene el acceso, la unica forma es cuado se corre una interrupcion ya que esta es privilegiada.
+
+
+7. ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo
+modelo de registro ortogonal es cuando las instrucciones pueden combinar los valores de los tres factores que son tipo de dato, modos de direccionamiento y conjunto basico de operaciones.
+
+8. ¿Qué ventajas presenta el uso de intrucciones de ejecución condicional (IT)? Dé un ejemplo
+El ensamblador la omite si esta ensmblando codigo.
+    ITTE   NE        
+    ANDNE  r0,r0,r1  
+    ADDSNE r2,r2,#1  
+
+9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
+NMI puede ser señalada por un periférico o activada por software.
+Un HardFault es una excepción que ocurre debido a un error durante el procesamiento de la excepción.
+El reinicio se invoca al encender o un reinicio en caliente.
+
+
