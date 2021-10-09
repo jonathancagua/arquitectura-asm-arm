@@ -43,4 +43,28 @@ NMI puede ser señalada por un periférico o activada por software.
 Un HardFault es una excepción que ocurre debido a un error durante el procesamiento de la excepción.
 El reinicio se invoca al encender o un reinicio en caliente.
 
+10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
+Es la encargada de manejar los puntos de retorno en el llamado de una funciona a otra.Se organiza los puntos de retorno del mas actual al mas antiguo.
+
+11. Describa la secuencia de reset del microprocesador.
+la direccion 0x00000004 tiene le reset, primeor voy a la direccion incial 0x00000000 y luego a la de reset.
+
+
+12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de los periféricos?
+Son los que define arm para sus cortex.
+
+13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
+En la tabla de vector, la mayoria son configurable.
+
+14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
+Es la capa de abstraccion de hardware de cada fabricante.
+
+15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
+Se guardan los valores de contador y el punto de retorno para luego de atender la interrupcion se regrese al su punto d epartida antes de la interrupcion.
+
+17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+
+
+
+
 
