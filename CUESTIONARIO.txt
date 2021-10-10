@@ -85,6 +85,25 @@ PendSV es una excepción pendiente, si se confirggura con la prioridad más baja
          CPSIE I@ interrupción abierta
          BX LR; retorno anormal
 
+21. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un sistema operativo embebido.
+Es utilizado para el cambio entre tareas.
+
+ISA
+1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo
+Son letras agregadas a la instruccion de ensamblador para realizar algo en especial agregado a la instruccion.
+    ADD     r0, r1, r2    
+    ADDS    r0, r1, r2    
+    ADDSCS  r0, r1, r2    
+2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
+Es para especificar que es una instruccion con signo.
+ADDS    r4, r0, r2 
+
+
+3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
+sirve para saturar cualquier valor y este no pueda generar picos en la salida del cualquier proceso.
+
+
+
 
 
 
