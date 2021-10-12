@@ -59,8 +59,8 @@ void c_pack32to16 (int32_t *vectorIn, int16_t *vectorOut, uint32_t longitud){
 int32_t c_max (int32_t *vectorIn, uint32_t longitud){
     int32_t max;
     int32_t pos = 0;
-    max = vectorIn[0];
-    for(int i = 1; i<longitud;i++){
+    max = 0;
+    for(int i = 0; i<longitud;i++){
         if(vectorIn[i]>max){
             pos = i;
         }

@@ -11,6 +11,7 @@
 .global asm_productoEscalar12
 .global asm_filtroVentana10
 .global asm_pack32to16
+.global asm_max
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   uint32_t asmSum (uint32_t firstOperand, uint32_t secondOperand)
@@ -216,3 +217,31 @@
         blt  .loop_pack_1 
 		pop {r3,r4}
 		bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@	Realizar una función que reciba un vector de números signados de 32 bits y 
+@ 	devuelva la posición del máximo del vector.
+@   int32_t max (int32_t * vectorIn, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: *vectorIn
+@	r1: longitud
+.thumb_func
+	asm_max:
+	push {r2-r4}
+	mov r2,#0 @r2 es pos
+	mov r3,#0 @r3 es i
+	mov r4, #0 @r4 es max
+	.loop_max:
+		ldr r5,[r0],#4 @ r3 = mem32[r0] ; r0 +=4
+		.beginifmax:
+		cmp r5, r4
+		ble .endifmax
+		mov r2,r3	@guardo posicion
+		mov r4,r5 @guardo el mayor
+		.endifmax:
+	add r3, 1 
+	cmp  r3, r1 
+	blt  .loop_max 
+	mov r0, r2
+	pop {r2-r4}
+	bx lr
