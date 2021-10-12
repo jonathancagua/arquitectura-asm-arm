@@ -1,0 +1,110 @@
+Preguntas orientadoras:
+1. Describa brevemente los diferentes perfiles de familias de microprocesadores/microcontroladores de ARM. Explique alguna de sus diferencias características.
+Cortex A que son para aplicacion que ofrece soluciones para aplicaciones moviles de alto rendimiento.
+Cortex R son par aplicaciones de tiempo real.
+Cortex M: microcontolador son para disneos de bajo consumo, de potencia y bajo costo. 
+
+CORTEX M
+1. Describa brevemente las diferencias entre las familias de procesadores Cortex M0, M3 y M4.
+Cortex M0 se emplean en aplicaciones que requieran bajo costo, consumo de potencia y área mínima.
+Cortex M3, M4 se emplean en dispositivos que requiere balance entre desempeño y eficiencia energética.
+
+2. ¿Por qué se dice que el set de instrucciones Thumb permite mayor densidad de código?
+Permite mayor densidad de codigo porque son un set de instrucciones de 16 bits de longitud 
+en lugar de los 32 lo que logra disminuir la cantidad de codigo y la densidad.
+
+3. ¿Qué entiende por arquitectura load-store? ¿Qué tipo de instrucciones no posee este
+tipo de arquitectura?
+Es un almacenamiento de carga para el acceso de memoria significa que soo las instrucciones de carga 
+y almacenamiento las instruccines que puedes usarla son LDR y STR, pueden acceder directo a la memoria.
+
+4. ¿Cómo es el mapa de memoria de la familia?
+La arquitectura Armv7-M define un mapa de memoria de 4GB de direccioes de memoria, la cual esta distribuida 
+en codigo,SRAM, perifericos, ram externa, dispositivos eternos, privados y dispositivos.
+
+5. ¿Qué ventajas presenta el uso de los “shadowed pointers” del PSP y el MSP?
+Se usa para proveer parametros adicionales y locales variables para distintos segmentos de programa.
+
+6. Describa los diferentes modos de privilegio y operación del Cortex M, sus relaciones y como se conmuta de uno al otro. Describa un ejemplo en el que se pasa del modo privilegiado a no priviligiado y nuevamente a privilegiado.
+El arm cuenta con dos modos, el modo controlador y el modo hilo. Tambien cuenta con niveles de permiso que son privilegiado y no privilegiado, el privilegiado tiene acceso a todo los recursos y el otro es limitado al acceso.No se puede acceder del modo hilo al modo privilegiado poqur no se tiene el acceso, la unica forma es cuado se corre una interrupcion ya que esta es privilegiada.
+
+
+7. ¿Qué se entiende por modelo de registros ortogonal? Dé un ejemplo
+modelo de registro ortogonal es cuando las instrucciones pueden combinar los valores de los tres factores que son tipo de dato, modos de direccionamiento y conjunto basico de operaciones.
+
+8. ¿Qué ventajas presenta el uso de intrucciones de ejecución condicional (IT)? Dé un ejemplo
+El ensamblador la omite si esta ensmblando codigo.
+    ITTE   NE        
+    ANDNE  r0,r0,r1  
+    ADDSNE r2,r2,#1  
+
+9. Describa brevemente las excepciones más prioritarias (reset, NMI, Hardfault).
+NMI puede ser señalada por un periférico o activada por software.
+Un HardFault es una excepción que ocurre debido a un error durante el procesamiento de la excepción.
+El reinicio se invoca al encender o un reinicio en caliente.
+
+10. Describa las funciones principales de la pila. ¿Cómo resuelve la arquitectura el llamado a funciones y su retorno?
+Es la encargada de manejar los puntos de retorno en el llamado de una funciona a otra.Se organiza los puntos de retorno del mas actual al mas antiguo.
+
+11. Describa la secuencia de reset del microprocesador.
+la direccion 0x00000004 tiene le reset, primeor voy a la direccion incial 0x00000000 y luego a la de reset.
+
+
+12. ¿Qué entiende por “core peripherals”? ¿Qué diferencia existe entre estos y el resto de los periféricos?
+Son los que define arm para sus cortex.
+
+13. ¿Cómo se implementan las prioridades de las interrupciones? Dé un ejemplo
+En la tabla de vector, la mayoria son configurable.
+
+14. ¿Qué es el CMSIS? ¿Qué función cumple? ¿Quién lo provee? ¿Qué ventajas aporta?
+Es la capa de abstraccion de hardware de cada fabricante.
+
+15. Cuando ocurre una interrupción, asumiendo que está habilitada ¿Cómo opera el microprocesador para atender a la subrutina correspondiente? Explique con un ejemplo
+Se guardan los valores de contador y el punto de retorno para luego de atender la interrupcion se regrese al su punto d epartida antes de la interrupcion.
+
+17. ¿Cómo cambia la operación de stacking al utilizar la unidad de punto flotante?
+
+
+16. Explique las características avanzadas de atención a interrupciones: tail chaining y late arrival.
+Tail chaining es si una excepción está en un estado pendiente cuando se completo otro manejador de excepciones, en lugar de volver al programa interrumpido y entrar de nuevo en la secuencia de excepción.
+Late arrival si se produce una excepción de mayor prioridad durante el proceso de apilamiento de una excepción de menor prioridad, el procesador pasa a gestionar primero la excepción de mayor prioridad.
+
+17. ¿Qué es el systick? ¿Por qué puede afirmarse que su implementación favorece la portabilidad de los sistemas operativos embebidos?
+Esta característica de los Cortex-M consiste en un contador en decremento de 24 bits con un mecanismo de control flexible. Favorece ya que en todos los micros es la misma aplicacion.
+
+
+18. ¿Qué funciones cumple la unidad de protección de memoria (MPU)?
+permite bloquear acceso a ciertas secciones de memoria y levanta exception si esta intentando acceder.
+
+19. ¿Cuántas regiones pueden configurarse como máximo? ¿Qué ocurre en caso de haber solapamientos de las regiones? ¿Qué ocurre con las zonas de memoria no cubiertas por las regiones definidas?
+Son ocho regiones que pueden configurar.En solapamiento queda defindo con esa configuracion.
+
+20. ¿Para qué se suele utilizar la excepción PendSV? ¿Cómo se relaciona su uso con el resto de las excepciones? Dé un ejemplo
+PendSV es una excepción pendiente, si se confirggura con la prioridad más baja, si se activan varias excepciones al mismo tiempo, se ejecutará después de que se completen otras excepciones, y cualquier excepción puede interrumpirlo. 
+         CPSID I@ interrupción cercana
+         CPSIE I@ interrupción abierta
+         BX LR; retorno anormal
+
+21. ¿Para qué se suele utilizar la excepción SVC? Expliquelo dentro de un marco de un sistema operativo embebido.
+Es utilizado para el cambio entre tareas.
+
+ISA
+1. ¿Qué son los sufijos y para qué se los utiliza? Dé un ejemplo
+Son letras agregadas a la instruccion de ensamblador para realizar algo en especial agregado a la instruccion.
+    ADD     r0, r1, r2    
+    ADDS    r0, r1, r2    
+    ADDSCS  r0, r1, r2    
+2. ¿Para qué se utiliza el sufijo ‘s’? Dé un ejemplo
+Es para especificar que es una instruccion con signo.
+ADDS    r4, r0, r2 
+
+
+3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
+sirve para saturar cualquier valor y este no pueda generar picos en la salida del cualquier proceso.
+
+
+
+
+
+
+
