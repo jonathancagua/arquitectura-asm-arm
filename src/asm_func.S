@@ -12,6 +12,7 @@
 .global asm_filtroVentana10
 .global asm_pack32to16
 .global asm_max
+.global asm_invertir
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   uint32_t asmSum (uint32_t firstOperand, uint32_t secondOperand)
@@ -227,7 +228,7 @@
 @	r1: longitud
 .thumb_func
 	asm_max:
-	push {r2-r4}
+	push {r2-r5}
 	mov r2,#0 @r2 es pos
 	mov r3,#0 @r3 es i
 	mov r4, #0 @r4 es max
@@ -243,5 +244,34 @@
 	cmp  r3, r1 
 	blt  .loop_max 
 	mov r0, r2
-	pop {r2-r4}
+	pop {r2-r5}
+	bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@	Realizar una función que reciba un vector de muestras no signadas de 16 bits 
+@	e invierta su orden.
+@   void invertir (uint16_t * vector, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: *vectorIn
+@	r1: longitud
+.thumb_func
+	asm_invertir:
+	push {r2-r8}
+	mov r3,r1, ASR #1 @uint32_t centro = longitud >> 2;
+	mov r5,#0 @ r5 es i del for
+
+	mov r6,r0 @copio el puntero de posicion inicial
+	sub r7,r1,#1 @ en las 2 copio longitud -1 
+	add r6,r6,r7, LSL #1	@se asigna a r6 la ultima posicion
+	@r7 lo puedes usar.
+	.loop_inv:
+	ldrh r7, [r0]     
+    ldrh r8, [r6]
+
+    strh r8, [r0],#2    @ mem16[r0] = r6 ; copio la ultima en la primera
+	strh r7, [r6],#-2	@copio en la ultims pos y le resto 2
+	add r5, 1 
+	cmp  r5, r3 @solo hago la mitad del arreglo 
+	blt  .loop_inv 
+	pop {r2-r8}
 	bx lr

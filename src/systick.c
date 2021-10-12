@@ -33,6 +33,7 @@ static void mult12();
 static void filtroVentana();
 static void pack32to16();
 static void max();
+static void invertir();
 int main(void){
 	Inicio();
 	uint32_t aValue = 20,
@@ -62,6 +63,7 @@ int main(void){
     pack32to16();
     //filtroVentana();
     max();
+    invertir();
 	while (1)
 	{
 		__WFI();
@@ -116,6 +118,11 @@ static void max(){
 	uint32_t array_in[10]={0x01,0x02,0x06,0x02,0x03,0x09,0x03,0x02,0x03,0x02};
 	c_max (&array_in[0], 10);
 	pos = asm_max(&array_in[0], 10);
+}
+static void invertir(){
+	uint16_t array_in[10]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a};
+	asm_invertir (&array_in[0], 10);
+
 }
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.

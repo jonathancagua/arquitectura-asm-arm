@@ -71,3 +71,13 @@ int32_t c_max (int32_t *vectorIn, uint32_t longitud){
 void c_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
 
 }
+
+void c_invertir (uint16_t * vector, uint32_t longitud){
+    uint32_t centro = longitud >> 1;
+    uint32_t temporal = 0;
+    for(int i=0;i<centro; i++){
+        temporal = vector[i];
+        vector[i]= vector[longitud-1-i];
+        vector[longitud-1-i] = temporal;
+    }
+}

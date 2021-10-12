@@ -9,3 +9,4 @@ void c_productoEscalar32(uint32_t *vectorIn,uint32_t *vectorOut, uint32_t longit
 void c_productoEscalar16(uint16_t *vectorIn,uint16_t *vectorOut, uint16_t longitud, uint16_t escalar);
 void c_productoEscalar12(uint16_t *vectorIn,uint16_t *vectorOut, uint16_t longitud, uint16_t escalar);
 int32_t c_max (int32_t * vectorIn, uint32_t longitud);
+void c_invertir (uint16_t * vector, uint32_t longitud);
