@@ -9,6 +9,8 @@
 .global asm_productoEscalar32
 .global asm_productoEscalar16
 .global asm_productoEscalar12
+.global asm_filtroVentana10
+.global asm_pack32to16
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   uint32_t asmSum (uint32_t firstOperand, uint32_t secondOperand)
@@ -143,5 +145,74 @@
 		bne .loop_pro12
 		pop {r4-r5}
 		bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@   extern void asm_filtroVentana10(uint16_t * vectorIn, uint16_t *vectorOut,
+@												uint32_t longitudVectorIn);
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@	r2: longitudVectorIn
 
+@ r7 j
+@ r6 i
+@ r8 es i+10
+@ r9 pos
+.EQU ventana, 10
+.thumb_func
+	asm_filtroVentana10:
+		push {r4-r10}
+		mov r6,#0
+		mov r5,#0
+	.loop1: @for (int i = 0; i < longitudVectorIn; i++) r6 es i
+		mov r7,r6
+		add r8,r6,#10
+		.loop2: @for (int j = i; j < i + 10; j++) { @ j = r7 y r8=i+10
+			cmp r7,r2 @if(j>longitudVectorIn){ 
+			blt .ifuno
+			mov r9,r7 @pos = j;@aqui va el else
+			b .endifuno
+		.ifuno:
+			sub r9,r7,r2 @pos = j - longitudVectorIn;
+		.endifuno:
+			@sumatoria += vectorIn[pos]-------- desplazamienot de 2 xq uint16
+			add r5, r0, r9 ,LSL #1
+			ldrh r4, [r5] 
+			add r3,r4
+			@-------------------------------------------------
+			add r7,r7,#1 @j++
+			cmp r7,r8 @j < i + 10
+			blt .loop2 @-----end for 2
 
+			@div r5, r5, #10   @sumatoria/10;
+			ldrh r4,[r0],#2 @ r4 = mem16[r0] ; r0 +=2 @vectorOut[i] = sumatoria/10;
+
+		add  r6, r6, #1 @i++
+		cmp  r6, ventana @compara si es igual a 10 ----- end for 1
+        blt  .loop1 @loop del for 1
+		pop {r4-r10}
+		bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@	Realizar una función que reciba un vector de números signados de 32 bits y 
+@	los “empaquete” en otro vector de 16 bits. La función deberá adecuar los 
+@	valores de entrada a la nueva precisión.
+@   vvoid pack32to16 (int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@	r2: longitud
+.thumb_func
+	asm_pack32to16:
+		push {r3,r4}
+		mov r4,#0
+		.loop_pack_1:
+		ldr r3,[r0],#4 @ r3 = mem32[r0] ; r0 +=4
+		lsr r3, #16 
+		strh r3,[r1],#2 @ mem16[r1] = r3 ; r1 +=2
+		add  r4, r4, #1 @i++
+		cmp  r4, r2 
+        blt  .loop_pack_1 
+		pop {r3,r4}
+		bx lr

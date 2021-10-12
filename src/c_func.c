@@ -30,3 +30,44 @@ void c_productoEscalar12(uint16_t *vectorIn,uint16_t *vectorOut, uint16_t longit
 			}
 	}
 }
+
+void c_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn)
+{
+    uint32_t sumatoria = 0;
+    uint32_t pos = 0;
+
+    for (int i = 0; i < longitudVectorIn; i++) {
+        for (int j = i; j < i + 10; j++) {
+            if(j>longitudVectorIn){
+            	pos = j - longitudVectorIn;
+            }
+            else{
+            	pos = j;
+            }
+            sumatoria += vectorIn[pos];
+        }
+        vectorOut[i] = sumatoria/10;
+        sumatoria = 0;
+    }
+}
+
+void c_pack32to16 (int32_t *vectorIn, int16_t *vectorOut, uint32_t longitud){
+    for(int i=0;i<longitud;i++)
+        vectorOut[i] = (uint16_t)(vectorIn[i]>>16);
+}
+
+int32_t c_max (int32_t *vectorIn, uint32_t longitud){
+    int32_t max;
+    int32_t pos = 0;
+    max = vectorIn[0];
+    for(int i = 1; i<longitud;i++){
+        if(vectorIn[i]>max){
+            pos = i;
+        }
+    }
+    return(pos);
+}
+
+void c_downsampleM (int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
+
+}

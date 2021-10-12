@@ -30,6 +30,8 @@ static void zeros();
 static void mult();
 static void mult16();
 static void mult12();
+static void filtroVentana();
+static void pack32to16();
 int main(void){
 	Inicio();
 	uint32_t aValue = 20,
@@ -56,6 +58,8 @@ int main(void){
     mult();
     mult16();
     mult12();
+    pack32to16();
+    //filtroVentana();
 	while (1)
 	{
 		__WFI();
@@ -75,19 +79,35 @@ static void zeros(){
 static void mult(){
 	uint32_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
     uint32_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    c_productoEscalar32(&array_in[0],&array_out[0],8,2);
 	asm_productoEscalar32(&array_in[0],&array_out[0],8,2);
 }
 
 static void mult16(){
 	uint16_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
     uint16_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    c_productoEscalar16(&array_in[0],&array_out[0],8,2);
 	asm_productoEscalar16(&array_in[0],&array_out[0],8,2);
 }
 
 static void mult12(){
 	uint16_t array_in[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
     uint16_t array_out[8]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08};
+    c_productoEscalar12(&array_in[0],&array_out[0],8,0x08FF);
 	asm_productoEscalar12(&array_in[0],&array_out[0],8,0x08FF);
+}
+static void filtroVentana(){
+	uint16_t array_in[20]={0x01,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02};
+    uint16_t array_out[10]={0x00};
+    c_filtroVentana10(&array_in[0],&array_out[0],sizeof(array_in));
+    asm_filtroVentana10(&array_in[0],&array_out[0],sizeof(array_in));
+}
+static void pack32to16(){
+	uint32_t array_in[10]={0x02040201,0x03040302,0x09090809,0x09090902,0x08080803,0x06060602,0x04040403,0x07070702,0x05050503,0x04040402};
+    uint16_t array_out[10]={0x00};
+
+    asm_pack32to16(&array_in[0],&array_out[0],sizeof(array_in)/sizeof(array_in[0]));
+    c_pack32to16(&array_in[0],&array_out[0],sizeof(array_in));
 }
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.
