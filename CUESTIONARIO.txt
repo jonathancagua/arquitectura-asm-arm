@@ -102,7 +102,11 @@ ADDS    r4, r0, r2
 3. ¿Qué utilidad tiene la implementación de instrucciones de aritmética saturada? Dé un ejemplo con operaciones con datos de 8 bits.
 sirve para saturar cualquier valor y este no pueda generar picos en la salida del cualquier proceso.
 
-
+4. Describa brevemente la interfaz entre assembler y C ¿Cómo se reciben los argumentos
+de las funciones? ¿Cómo se devuelve el resultado? ¿Qué registros deben guardarse en la
+pila antes de ser modificados?
+Las ariable como se ha visto se gardan en los primero registros y si deseas retornar debes poner debe ser en l registro r0.
+debes guardar en la pila dependiendo de la cantidad de registro a usar.
 
 
 
