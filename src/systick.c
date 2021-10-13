@@ -120,9 +120,15 @@ static void max(){
 	pos = asm_max(&array_in[0], 10);
 }
 static void invertir(){
+	uint32_t contador = 0;
 	uint16_t array_in[10]={0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x0a};
+	EnableCycleCounter();
+	ResetCycleCounter();
 	asm_invertir (&array_in[0], 10);
-
+	contador = GetCycleCounter();
+	ResetCycleCounter();
+	c_invertir (&array_in[0], 10);
+	contador = GetCycleCounter();
 }
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.
