@@ -166,11 +166,13 @@
 		push {r4-r10}
 		mov r6,#0
 		mov r5,#0
+		mov r3,#0
+		mov r9,ventana
 	.loop1: @for (int i = 0; i < longitudVectorIn; i++) r6 es i
 		mov r7,r6
 		add r8,r6,#10
 		.loop2: @for (int j = i; j < i + 10; j++) { @ j = r7 y r8=i+10
-			cmp r7,r2 @if(j>longitudVectorIn){ 
+			cmp r2,r7 @if(j>longitudVectorIn){
 			blt .ifuno
 			mov r9,r7 @pos = j;@aqui va el else
 			b .endifuno
@@ -183,11 +185,11 @@
 			add r3,r4
 			@-------------------------------------------------
 			add r7,r7,#1 @j++
-			cmp r7,r8 @j < i + 10
+			cmp r8,r7 @j < i + 10
 			blt .loop2 @-----end for 2
 
-			@div r5, r5, #10   @sumatoria/10;
-			ldrh r4,[r0],#2 @ r4 = mem16[r0] ; r0 +=2 @vectorOut[i] = sumatoria/10;
+			udiv r5, r5, r9   @sumatoria/10;
+			ldrh r4,[r1],#2 @ r4 = mem16[r0] ; r0 +=2 @vectorOut[i] = sumatoria/10;
 
 		add  r6, r6, #1 @i++
 		cmp  r6, ventana @compara si es igual a 10 ----- end for 1

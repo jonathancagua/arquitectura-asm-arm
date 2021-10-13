@@ -61,7 +61,7 @@ int main(void){
     mult16();
     mult12();
     pack32to16();
-    //filtroVentana();
+    filtroVentana();
     max();
     invertir();
 	while (1)
@@ -102,9 +102,9 @@ static void mult12(){
 }
 static void filtroVentana(){
 	uint16_t array_in[20]={0x01,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02,0x03,0x02};
-    uint16_t array_out[10]={0x00};
-    c_filtroVentana10(&array_in[0],&array_out[0],sizeof(array_in));
-    asm_filtroVentana10(&array_in[0],&array_out[0],sizeof(array_in));
+    uint16_t array_out[20]={0x00};
+    //c_filtroVentana10(&array_in[0],&array_out[0],20);
+    asm_filtroVentana10(&array_in[0],&array_out[0],20);
 }
 static void pack32to16(){
 	uint32_t array_in[10]={0x02040201,0x03040302,0x09090809,0x09090902,0x08080803,0x06060602,0x04040403,0x07070702,0x05050503,0x04040402};
