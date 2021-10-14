@@ -278,3 +278,24 @@
 	pop {r2-r8}
 	bx lr
 
+.thumb_func
+	asm_eco_add:
+	push {r2-r8}
+
+	mov r2,#4095 @r2 es pos
+	mov r4,#882 @r3 es i
+	@mov r4, #0 @r4 es max
+	.loop_eco:
+		cmp r3,r4
+		blt .ifunomax
+		.ifunomax:
+		.endifunomax:
+
+	add r3, 1
+	cmp  r3, r2
+	blt  .loop_eco
+
+	pop {r2-r8}
+	bx lr
+
+
