@@ -81,3 +81,15 @@ void c_invertir (uint16_t * vector, uint32_t longitud){
         vector[longitud-1-i] = temporal;
     }
 }
+
+void c_eco_add (uint16_t *in, uint16_t *eco)
+{
+
+	for (uint32_t i = 0 ; i < 4095 ; i++ )
+	{
+		if (i < 882)
+			eco[i]= in[i];
+		else
+			eco[i] = in[i] + (in[i-882]/ 2);
+	}
+}
