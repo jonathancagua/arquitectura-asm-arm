@@ -34,6 +34,7 @@ static void filtroVentana();
 static void pack32to16();
 static void max();
 static void invertir();
+static void eco();
 int main(void){
 	Inicio();
 	uint32_t aValue = 20,
@@ -63,7 +64,8 @@ int main(void){
     pack32to16();
     filtroVentana();
     max();
-    invertir();
+    //invertir();
+    eco();
 	while (1)
 	{
 		__WFI();
@@ -129,6 +131,15 @@ static void invertir(){
 	ResetCycleCounter();
 	c_invertir (&array_in[0], 10);
 	contador = GetCycleCounter();
+}
+static void eco(){
+	uint32_t contador = 0;
+	uint16_t array_in[4096]={10};
+	uint16_t array_eco[4096]={0};
+	for (int i = 0; i < sizeof(array_in)/sizeof(array_in[0]); i++) {
+		array_in[i] = 10;
+	}
+	asm_eco_add (array_in,array_eco);
 }
 // Inicia soporte de la placa y periodo de la interrupcion del SYSTICK
 // cada 1 milisegundo.

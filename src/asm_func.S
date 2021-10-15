@@ -13,6 +13,7 @@
 .global asm_pack32to16
 .global asm_max
 .global asm_invertir
+.global asm_eco_add
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   uint32_t asmSum (uint32_t firstOperand, uint32_t secondOperand)
@@ -277,25 +278,50 @@
 	blt  .loop_inv 
 	pop {r2-r8}
 	bx lr
-
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@	Realizar una función que reciba un vector de muestras no signadas de 16 bits 
+@	e invierta su orden.
+@   void asm_eco_add (uint16_t *in, uint16_t *eco)
+@ Parametros recibidos:
+@   r0: *in
+@	r1: *eco
+@ 	r2: pos es la que ve la posicion max definida
+@ 	r3 es i del for
+@	r4 es los 20ms donde se debe meter el eco
+@ 	
 .thumb_func
 	asm_eco_add:
-	push {r2-r8}
+	push {r2-r8,lr}
 
 	mov r2,#4095 @r2 es pos
 	mov r4,#882 @r3 es i
-	@mov r4, #0 @r4 es max
+	mov r3,#0 @r3 es i
 	.loop_eco:
-		cmp r3,r4
+		cmp r3,r4 @if init
 		blt .ifunomax
+		@el else
+		sub r6,r0,#1764	@j=ptrR0-882
+		ldrh r5,[r0],#2
+		ldrh r7,[r6]
+		mov r6,#0
+		uhadd16 r6,r7,r6
+		uadd16 r5,r5,r6
+		strh r5,[r1],#2
+		@---------------------
+		bl .endifunomax
 		.ifunomax:
-		.endifunomax:
+		@ el if
+		ldrh r5,[r0],#2
+		strh r5,[r1],#2
+		@---------------------
+		.endifunomax:@if end
 
 	add r3, 1
 	cmp  r3, r2
 	blt  .loop_eco
 
-	pop {r2-r8}
+	pop {r2-r8,pc}
 	bx lr
 
 
